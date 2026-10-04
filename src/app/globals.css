@@ -1,26 +1,299 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
+
+/* ------------------------------------------------------------------ */
+/* Semantic color tokens (map utility classes -> CSS variables)        */
+/* ------------------------------------------------------------------ */
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Fonts */
+  --font-sans: var(--font-inter);
+  --font-heading: var(--font-inter);
   --font-mono: var(--font-geist-mono);
+
+  /* Design-system surfaces (theme-switching) */
+  --color-inverse: var(--inverse);
+  --color-inverse-foreground: var(--inverse-foreground);
+  --color-glass: var(--glass);
+  --color-glass-strong: var(--glass-strong);
+  --color-glass-border: var(--glass-border);
+  --color-glow: var(--glow);
+  --color-glow-strong: var(--glow-strong);
+  --color-glow-inverse: var(--glow-inverse);
+
+  /* Theme-switching shadow */
+  --shadow-glow: var(--glow-shadow);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ------------------------------------------------------------------ */
+/* Static design tokens (do not switch with theme)                     */
+/* ------------------------------------------------------------------ */
+
+@theme {
+  /* Radius */
+  --radius: 0.5rem;
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* Blur */
+  --blur-xs: 2px;
+  --blur-sm: 6px;
+  --blur-md: 12px;
+  --blur-lg: 20px;
+  --blur-xl: 32px;
+
+  /* Shadow */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04), 0 2px 6px rgba(0, 0, 0, 0.04);
+  --shadow-md:
+    0 1px 2px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.06);
+  --shadow-lg:
+    0 1px 2px rgba(0, 0, 0, 0.04), 0 12px 32px rgba(0, 0, 0, 0.08);
+  --shadow-xl:
+    0 1px 2px rgba(0, 0, 0, 0.05), 0 24px 64px rgba(0, 0, 0, 0.1);
+
+  /* Motion — duration */
+  --duration-instant: 75ms;
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+  --duration-slow: 400ms;
+  --duration-slower: 700ms;
+
+  /* Motion — easing */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: cubic-bezier(0.34, 1.25, 0.64, 1);
+
+  /* Layout */
+  --container-content: 72rem;
+  --container-narrow: 48rem;
+
+  /* Typography scale */
+  --text-display: clamp(2.75rem, 7vw, 5.5rem);
+  --text-display--line-height: 1.02;
+  --text-display--letter-spacing: -0.045em;
+  --text-display--font-weight: 600;
+
+  --text-title: clamp(2rem, 4.5vw, 3.5rem);
+  --text-title--line-height: 1.08;
+  --text-title--letter-spacing: -0.03em;
+  --text-title--font-weight: 600;
+
+  --text-heading: clamp(1.5rem, 3vw, 2rem);
+  --text-heading--line-height: 1.18;
+  --text-heading--letter-spacing: -0.022em;
+  --text-heading--font-weight: 600;
+
+  --text-subheading: 1.25rem;
+  --text-subheading--line-height: 1.4;
+  --text-subheading--letter-spacing: -0.01em;
+  --text-subheading--font-weight: 500;
+
+  --text-body-lg: 1.125rem;
+  --text-body-lg--line-height: 1.65;
+
+  --text-body: 1rem;
+  --text-body--line-height: 1.65;
+
+  --text-meta: 0.8125rem;
+  --text-meta--line-height: 1.4;
+  --text-meta--letter-spacing: 0.08em;
+
+  --text-caption: 0.75rem;
+  --text-caption--line-height: 1.4;
+  --text-caption--letter-spacing: 0.04em;
+}
+
+/* ------------------------------------------------------------------ */
+/* Light mode values                                                   */
+/* ------------------------------------------------------------------ */
+
+:root {
+  --background: #fafafa;
+  --foreground: #0a0a0a;
+  --card: #ffffff;
+  --card-foreground: #0a0a0a;
+  --popover: #ffffff;
+  --popover-foreground: #0a0a0a;
+  --primary: #0a0a0a;
+  --primary-foreground: #ffffff;
+  --secondary: #f4f4f5;
+  --secondary-foreground: #0a0a0a;
+  --muted: #f4f4f5;
+  --muted-foreground: #6b6b6b;
+  --accent: #f4f4f5;
+  --accent-foreground: #0a0a0a;
+  --destructive: #dc2626;
+  --border: #e7e7e7;
+  --input: #e7e7e7;
+  --ring: #0a0a0a;
+  --chart-1: #e7e7e7;
+  --chart-2: #c4c4c4;
+  --chart-3: #9a9a9a;
+  --chart-4: #6b6b6b;
+  --chart-5: #3a3a3a;
+  --sidebar: #f4f4f5;
+  --sidebar-foreground: #0a0a0a;
+  --sidebar-primary: #0a0a0a;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #ececec;
+  --sidebar-accent-foreground: #0a0a0a;
+  --sidebar-border: #e7e7e7;
+  --sidebar-ring: #0a0a0a;
+
+  /* Inverse (large black sections) */
+  --inverse: #0a0a0a;
+  --inverse-foreground: #fafafa;
+
+  /* Glass */
+  --glass: rgba(255, 255, 255, 0.6);
+  --glass-strong: rgba(255, 255, 255, 0.82);
+  --glass-border: rgba(0, 0, 0, 0.08);
+
+  /* Glow */
+  --glow: rgba(0, 0, 0, 0.05);
+  --glow-strong: rgba(0, 0, 0, 0.08);
+  --glow-shadow: 0 0 0 1px rgba(0, 0, 0, 0.03), 0 8px 48px rgba(0, 0, 0, 0.06);
+
+  /* Glow — used on inverse (dark-in-light) surfaces */
+  --glow-inverse: rgba(255, 255, 255, 0.09);
+}
+
+/* ------------------------------------------------------------------ */
+/* Dark mode values                                                    */
+/* ------------------------------------------------------------------ */
+
+.dark {
+  --background: #0a0a0a;
+  --foreground: #fafafa;
+  --card: #111113;
+  --card-foreground: #fafafa;
+  --popover: #131316;
+  --popover-foreground: #fafafa;
+  --primary: #fafafa;
+  --primary-foreground: #0a0a0a;
+  --secondary: #1a1a1d;
+  --secondary-foreground: #fafafa;
+  --muted: #1a1a1d;
+  --muted-foreground: #a1a1a8;
+  --accent: #1c1c1f;
+  --accent-foreground: #fafafa;
+  --destructive: #f87171;
+  --border: rgba(255, 255, 255, 0.08);
+  --input: rgba(255, 255, 255, 0.12);
+  --ring: #fafafa;
+  --chart-1: #2a2a2e;
+  --chart-2: #4a4a50;
+  --chart-3: #7a7a80;
+  --chart-4: #b0b0b6;
+  --chart-5: #ececef;
+  --sidebar: #111113;
+  --sidebar-foreground: #fafafa;
+  --sidebar-primary: #fafafa;
+  --sidebar-primary-foreground: #0a0a0a;
+  --sidebar-accent: #1a1a1d;
+  --sidebar-accent-foreground: #fafafa;
+  --sidebar-border: rgba(255, 255, 255, 0.08);
+  --sidebar-ring: #fafafa;
+
+  /* Inverse (white-on-black flips in dark) */
+  --inverse: #fafafa;
+  --inverse-foreground: #0a0a0a;
+
+  /* Glass */
+  --glass: rgba(20, 20, 23, 0.6);
+  --glass-strong: rgba(20, 20, 23, 0.8);
+  --glass-border: rgba(255, 255, 255, 0.1);
+
+  /* Glow */
+  --glow: rgba(255, 255, 255, 0.08);
+  --glow-strong: rgba(255, 255, 255, 0.14);
+  --glow-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.04), 0 8px 48px rgba(255, 255, 255, 0.06);
+
+  /* Glow — used on inverse (light-in-dark) surfaces */
+  --glow-inverse: rgba(0, 0, 0, 0.07);
+}
+
+/* ------------------------------------------------------------------ */
+/* Base                                                                */
+/* ------------------------------------------------------------------ */
+
+@layer base {
+  * {
+    border-color: var(--border);
   }
-}
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-inter);
+    font-feature-settings: "cv11", "ss01";
+  }
+
+  ::selection {
+    background: var(--foreground);
+    color: var(--background);
+  }
+
+  /* Refined, unobtrusive scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: color-mix(in oklab, var(--muted-foreground) 35%, transparent);
+    border-radius: 9999px;
+    border: 3px solid var(--background);
+  }
 }
